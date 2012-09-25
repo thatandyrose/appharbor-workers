@@ -37,6 +37,7 @@ namespace Workers.Host.Console.Jobs
                         string ret = string.Empty;
                         if (stream != null)
                         {
+                            string readToEnd = new StreamReader(stream).ReadToEnd();
                             ret = "cancelled";
                         }
                         s.Stop();

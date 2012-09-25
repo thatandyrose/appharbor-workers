@@ -20,7 +20,7 @@ namespace Workers.Fontend.Web.Models
         {
             Columns = new List<CsvColumn>();
         }
-        public List<CsvColumn> Columns { get; set; }
+        public IEnumerable<CsvColumn> Columns { get; set; }
     }
     public class CsvColumn
     {

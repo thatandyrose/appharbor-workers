@@ -156,9 +156,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Data\PingCsv.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Workers\Workers.csproj">
       <Project>{6E3B7D0B-65D0-4D04-A385-76A22BD82404}</Project>
       <Name>Workers</Name>

@@ -27,16 +27,32 @@ namespace Workers.Fontend.Web.Controllers
             _s3Parser = new S3LogParser();
         }
 
-        public ActionResult PingCsv()
-        {
-            return View(_repository.Search(p=>p.Url == "http://pro-moshcam-s3.edgesuite.net/videos-moshcam/test/SONY_15_DUAL_SCREEN.MP4" && p.Status == "OK").ToList());
-        }
-
         public ActionResult PutS3LogsInMongo()
         {
             _parsedLogRepo.DeleteAll();
             _s3Parser.ParseAction(new DirectoryInfo(@"c:\temp\s3logs"), "access",(l)=> _parsedLogRepo.Save(l));
             return Json(new {status = "done"}, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PingCSV()
+        {
+            var model = new CsvModel() {Filename = "ping.csv"};
+            _repository.GetAll().ForEach(p =>
+            {
+                var cols = new[]
+                {
+                    new CsvColumn("Url",p.Url),
+                    new CsvColumn("Time",p.Time.ToString("u")),
+                    new CsvColumn("Milliseconds",p.Duration.TotalMilliseconds.ToString()),
+                    new CsvColumn("Status",p.Status)
+                };
+                model.Rows.Add(new CsvRow()
+                {
+                    Columns = cols
+                });
+            });
+
+            return View("csv", model);
         }
 
         public ActionResult S3Hits()
