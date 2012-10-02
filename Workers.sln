@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workers.Host.Console", "Workers.Host.Console\Workers.Host.Console.csproj", "{34BCE89D-D165-4477-96D7-D860486896E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workers.Fontend.Web", "Workers.Fontend.Web\Workers.Fontend.Web.csproj", "{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workers", "Workers\Workers.csproj", "{6E3B7D0B-65D0-4D04-A385-76A22BD82404}"
 EndProject
 Global
@@ -27,16 +25,6 @@ Global
 		{34BCE89D-D165-4477-96D7-D860486896E3}.Release|Mixed Platforms.Build.0 = Release|x86
 		{34BCE89D-D165-4477-96D7-D860486896E3}.Release|x86.ActiveCfg = Release|x86
 		{34BCE89D-D165-4477-96D7-D860486896E3}.Release|x86.Build.0 = Release|x86
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{DDF9EC3C-E547-41B3-BB8E-3784008F95E5}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E3B7D0B-65D0-4D04-A385-76A22BD82404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E3B7D0B-65D0-4D04-A385-76A22BD82404}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E3B7D0B-65D0-4D04-A385-76A22BD82404}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
