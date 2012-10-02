@@ -37,21 +37,29 @@ namespace Workers.Fontend.Web.Controllers
         public ActionResult PingCSV()
         {
             var model = new CsvModel() {Filename = "ping.csv"};
-            _repository.GetAll().ForEach(p =>
+            var bydate = _repository.GetAll().OrderBy(p => p.Time);
+            var urls = bydate.Select(p => p.Url).Distinct();
+            var i = 0;
+            bydate.Where(p=>p.Url == urls.First()).ToList().ForEach(p=>
             {
-                var cols = new[]
+                var cols = new List<CsvColumn>();
+                
+                cols.Add(new CsvColumn("Time",p.Time.ToString("u")));
+                cols.Add(new CsvColumn(p.Url,p.Duration.TotalMilliseconds.ToString()));
+                
+                urls.Skip(1).ToList().ForEach(u=>
                 {
-                    new CsvColumn("Url",p.Url),
-                    new CsvColumn("Time",p.Time.ToString("u")),
-                    new CsvColumn("Milliseconds",p.Duration.TotalMilliseconds.ToString()),
-                    new CsvColumn("Status",p.Status)
-                };
+                    var pForUrl = bydate.Where(pi => pi.Url == u).ElementAt(i);
+                    cols.Add(new CsvColumn(pForUrl.Url, pForUrl.Duration.TotalMilliseconds.ToString()));          
+                });
+
                 model.Rows.Add(new CsvRow()
                 {
                     Columns = cols
                 });
-            });
 
+                i++;
+            });
             return View("csv", model);
         }
 

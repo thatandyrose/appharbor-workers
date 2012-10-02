@@ -9,6 +9,7 @@ using System.Text;
 using Quartz;
 using Rappers.DaData;
 using Rappers.DaData.Implementations.Mongo;
+using StatsMix;
 using Workers.Models;
 
 namespace Workers.Host.Console.Jobs
@@ -41,7 +42,7 @@ namespace Workers.Host.Console.Jobs
                             ret = "cancelled";
                         }
                         s.Stop();
-                        _repository.Save(new PingerModel()
+                        Publish(new PingerModel()
                         {
                             Time = DateTime.Now,
                             Url = url,
@@ -57,6 +58,25 @@ namespace Workers.Host.Console.Jobs
             {
                 throw new JobExecutionException(ex);
             }
+        }
+
+        private void Publish(PingerModel model)
+        {
+            _repository.Save(model);
+
+            var smClient = new Client("444b5639fd1e744c2150");
+            //to add metadata, create a Dictionairy object containing key-value paisrs
+            var meta = new Dictionary<string,string>
+            {
+                {"url", model.Url}
+            };
+
+            var props = new Dictionary<string, string>
+            {
+                {"value", model.Duration.ToString()}
+            };
+
+            smClient.track("ResponseTime", props, meta);	
         }
     }
 }

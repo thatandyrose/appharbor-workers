@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Quartz;
 using Quartz.Impl;
+using StatsMix;
 using Workers.Host.Console.Jobs;
 
 namespace Workers.Host.Console
