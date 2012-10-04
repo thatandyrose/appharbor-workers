@@ -60,7 +60,7 @@ namespace Workers.Host.Console.Jobs
             }
         }
 
-        private void Publish(PingerModel model)
+        public void Publish(PingerModel model)
         {
             _repository.Save(model);
 
