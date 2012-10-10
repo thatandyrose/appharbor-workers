@@ -39,9 +39,10 @@ namespace Workers.Host.Console.Jobs
                         if (stream != null)
                         {
                             string readToEnd = new StreamReader(stream).ReadToEnd();
-                            ret = "cancelled";
+                            ret = string.Format("{0}...", readToEnd.Substring(0, 500));
                         }
                         s.Stop();
+                        
                         Publish(new PingerModel()
                         {
                             Time = DateTime.Now,
@@ -49,7 +50,9 @@ namespace Workers.Host.Console.Jobs
                             response = ret,
                             Status = response.StatusCode.ToString(),
                             StatusDescription = response.StatusDescription,
-                            Duration = s.Elapsed
+                            Duration = s.Elapsed,
+                            ContentLength = response.ContentLength,
+                            ContentType = response.ContentType
                         });
                     }
                 });
@@ -63,20 +66,6 @@ namespace Workers.Host.Console.Jobs
         public void Publish(PingerModel model)
         {
             _repository.Save(model);
-
-            var smClient = new Client("444b5639fd1e744c2150");
-            //to add metadata, create a Dictionairy object containing key-value paisrs
-            var meta = new Dictionary<string,string>
-            {
-                {"url", model.Url}
-            };
-
-            var props = new Dictionary<string, string>
-            {
-                {"value", model.Duration.ToString()}
-            };
-
-            smClient.track("ResponseTime", props, meta);	
         }
     }
 }

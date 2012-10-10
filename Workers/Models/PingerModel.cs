@@ -11,5 +11,7 @@ namespace Workers.Models
         public string response { get; set; }
         public string Status { get; set; }
         public string StatusDescription { get; set; }
+        public long ContentLength { get; set; }
+        public string ContentType { get; set; }
     }
 }

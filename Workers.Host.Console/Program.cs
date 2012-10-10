@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 using StatsMix;
@@ -12,25 +13,32 @@ namespace Workers.Host.Console
 {
     class Program
     {
-        private static readonly TimeSpan _interval;
+        private static readonly TimeSpan Interval;
         static Program()
         {
-            _interval = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["interval"]));
+            Interval = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["interval"]));
         }
         static void Main(string[] args)
         {
+            var settings = JsonConvert.DeserializeObject<PingerSettings>(ConfigurationManager.AppSettings["settings"]);
+
             // construct a scheduler
             var scheduler = new StdSchedulerFactory().GetScheduler();
             scheduler.Start();
+            
+            settings.Pings.ForEach(p=>
+            {
+                var job = JobBuilder.Create<Pinger>()
+                    .UsingJobData("urls",string.Join(",",p.Urls))
+                    .Build();
+                
+                var trigger = TriggerBuilder.Create()
+                                .WithSimpleSchedule(x =>
+                                x.WithInterval(TimeSpan.FromMinutes(p.Interval)).RepeatForever())
+                                .Build();
 
-            var job = JobBuilder.Create<Pinger>().Build();
-
-            var trigger = TriggerBuilder.Create()
-                            .WithSimpleSchedule(x =>
-                            x.WithInterval(_interval).RepeatForever())
-                            .Build();
-
-            scheduler.ScheduleJob(job, trigger);
+                scheduler.ScheduleJob(job, trigger);                            
+            });
         }
     }
 }
