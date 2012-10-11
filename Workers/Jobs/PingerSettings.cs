@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Workers.Host.Console.Jobs
+namespace Workers.Jobs
 {
     public class PingerSettings
     {

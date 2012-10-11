@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using Quartz;
 using Rappers.DaData;
 using Rappers.DaData.Implementations.Mongo;
-using StatsMix;
 using Workers.Models;
 
-namespace Workers.Host.Console.Jobs
+namespace Workers.Jobs
 {
     public class Pinger: IJob
     {

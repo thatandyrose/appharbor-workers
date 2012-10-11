@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Workers.Host.Console.Jobs;
+using Workers.Jobs;
 using Workers.Models;
 
 namespace Workers.Tests
