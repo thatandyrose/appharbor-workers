@@ -26,7 +26,8 @@ namespace Workers.Host.Console.Jobs
         {
             try
             {
-                var urls = ConfigurationManager.AppSettings["pinger.urls"].Split(',');
+                var urls = context.Get("urls").ToString().Split(',');
+
                 urls.ToList().ForEach(url =>
                 {
                     var request = (HttpWebRequest)WebRequest.Create(url);

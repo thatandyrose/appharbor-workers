@@ -13,32 +13,30 @@ namespace Workers.Host.Console
 {
     class Program
     {
-        private static readonly TimeSpan Interval;
-        static Program()
-        {
-            Interval = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["interval"]));
-        }
         static void Main(string[] args)
         {
-            var settings = JsonConvert.DeserializeObject<PingerSettings>(ConfigurationManager.AppSettings["settings"]);
+            var settings = SettingsFactory.Create<PingerSettings>(ConfigurationManager.AppSettings["settings"]);
 
-            // construct a scheduler
-            var scheduler = new StdSchedulerFactory().GetScheduler();
-            scheduler.Start();
-            
-            settings.Pings.ForEach(p=>
+            if(settings != null && settings.Pings != null && settings.Pings.Count > 0)
             {
-                var job = JobBuilder.Create<Pinger>()
-                    .UsingJobData("urls",string.Join(",",p.Urls))
-                    .Build();
+                // construct a scheduler
+                var scheduler = new StdSchedulerFactory().GetScheduler();
+                scheduler.Start();
+            
+                settings.Pings.ForEach(p=>
+                {
+                    var job = JobBuilder.Create<Pinger>()
+                        .UsingJobData("urls",string.Join(",",p.Urls))
+                        .Build();
                 
-                var trigger = TriggerBuilder.Create()
-                                .WithSimpleSchedule(x =>
-                                x.WithInterval(TimeSpan.FromMinutes(p.Interval)).RepeatForever())
-                                .Build();
+                    var trigger = TriggerBuilder.Create()
+                                    .WithSimpleSchedule(x =>
+                                    x.WithInterval(TimeSpan.FromMinutes(p.Interval)).RepeatForever())
+                                    .Build();
 
-                scheduler.ScheduleJob(job, trigger);                            
-            });
+                    scheduler.ScheduleJob(job, trigger);                            
+                });
+            }     
         }
     }
 }
